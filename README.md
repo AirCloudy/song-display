@@ -14,7 +14,29 @@ Some instructions...
 
 ## API Documentation
 
-[TO ADD]
+GET /query/getSong/:songid
+Returns array with two items. The first is an array with song data, the second is an arary of arrays with comments data.
+(May need to break this up into GET /songs/:songid and GET /comments/:songid)
+
+POST /songs
+Inserts a new song record into the database
+
+PUT /songs/:songid
+Updates a song record in the database
+
+DELETE /songs/:songid
+Removes a song record in the database, and removes any related comment records
+
+POST /comments/
+Inserts a comment record into the database for a specific song
+
+PUT /comments/:commentid
+Updates a comment record in the database
+(Better to specify :songid as well? if mongo db)
+
+DELETE /comments/:commentid
+Removes a comment record from the database
+(Better to specify :songid as well? if mongo db)
 
 ## Related Projects
 
