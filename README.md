@@ -30,13 +30,11 @@ Removes a song record in the database, and removes any related comment records
 ```POST /comments/```
 Inserts a comment record into the database for a specific song
 
-```PUT /comments/:commentid```
-Updates a comment record in the database
-(Better to specify :songid as well? if mongo db)
+```PUT /comments/[:songid]/:commentid```
+Updates a comment record in the database [songid would be removed if picking SQL db]
 
-```DELETE /comments/:commentid```
-Removes a comment record from the database
-(Better to specify :songid as well? if mongo db)
+```DELETE /comments]/[:songid/:commentid```
+Removes a comment record from the database [songid would be removed if picking SQL db]
 
 ## Related Projects
 
