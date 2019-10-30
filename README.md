@@ -10,7 +10,7 @@ Some description
 
 ## Usage
 
-Some instructions...
+Some instructions... link to primary data used for seeding: https://docs.google.com/spreadsheets/d/1hwpB4m7tJ8hPoLTkCoKtxYwlTUDIy23vpFFD99mDMWs/edit#gid=0
 
 ## API Documentation
 
