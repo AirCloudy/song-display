@@ -14,27 +14,74 @@ Some instructions... link to primary data used for seeding: https://docs.google.
 
 ## API Documentation
 
-```GET /query/getSong/:songid```
-Returns array with two items. The first is an array with song data, the second is an arary of arrays with comments data.
-(May need to break this up into GET /songs/:songid and GET /comments/:songid)
+** GET /query/getSong/:songid **
+Gets song and comments data for a song with the specified songid. The response returns a JSON array with two elements. The first is an object containing song data, the second is an array of objects containing comments data.
 
-```POST /songs```
-Inserts a new song record into the database
+Example response:
+```
+[
+  {
+    song_id: 55,
+    song_name: 'sometime somewhere',
+    artist_name: 'shakira wannabe',
+    date_posted: '06/04/2014',
+    tag: '# Pop',
+    song_art_url: 'www.artsy.com/something',
+    song_data_url: 'wwww.aws.com/somesome',
+    background_light: '(292, 23, 33)', // rgb value
+    background_dark: '(292, 23, 33)', // rgb value
+    waveform_data: {positiveValues: [0, 0.29, 0.59]},
+    song_duration: 136 // duration in seconds
+  },
+  [
+    {
+      comment_id: 1,
+      user_name: 'angeliquemari',
+      time_stamp: 99, // reference to second in song
+      comment: 'some comment'
+    },
+    {
+      comment_id: 2,
+      user_name: 'bobthebuilder',
+      time_stamp: 88, // reference to second in song
+      comment: 'another comment'
+    }
+  ]
+]
+```
 
-```PUT /songs/:songid```
-Updates a song record in the database
+** POST /songs **
+Inserts a new song record into the database. Song data should be sent in the body of the request, as a JSON object with the following keys:
+  - song_id
+  - song_name (string)
+  - artist_name (string)
+  - date_posted (date)
+  - tag (string)
+  - song_art_url (string)
+  - song_data_url (string)
+  - background_light (string, rgb value with format '(#, #, #)')
+  - background_dark (string, rgb value with format '(#, #, #)')
+  - waveform_data (JSON object with key `positiveValues` containing array of decimal numbers)
+  - song_duration (integer, duration in seconds)
+}
 
-```DELETE /songs/:songid```
-Removes a song record in the database, and removes any related comment records
+** PUT /songs/:songid **
+Updates a song record in the database for the specified songid. The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /songs).
 
-```POST /comments/```
-Inserts a comment record into the database for a specific song
+** DELETE /songs/:songid **
+Removes a song record in the database, for the specified songid, and removes any comment records related to the song.
 
-```PUT /comments/[:songid]/:commentid```
-Updates a comment record in the database [songid would be removed if picking SQL db]
+** POST /comments?songid=:songid **
+Inserts a comment record into the database for a specific song (specified in query parameter). Comment data should be sent in the body of the request, as a JSON object with the following keys:
+  - user_name (string)
+  - time_stamp (integer, reference to second in song)
+  - comment (string)
 
-```DELETE /comments]/[:songid/:commentid```
-Removes a comment record from the database [songid would be removed if picking SQL db]
+** PUT /comments/:commentid?songid=:songid **
+Updates a comment record in the database for a specific song (specified in query parameter). The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /comments).
+
+** DELETE /comments/:commentid?songid=:songid **
+Removes a comment record from the database for a specific song (specified in query parameter).
 
 ## Related Projects
 
