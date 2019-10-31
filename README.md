@@ -71,16 +71,16 @@ Updates a song record in the database for the specified songid. The updated vers
 ** DELETE /songs/:songid **
 Removes a song record in the database, for the specified songid, and removes any comment records related to the song.
 
-** POST /comments?songid=:songid **
+** POST /comments?songid **
 Inserts a comment record into the database for a specific song (specified in query parameter). Comment data should be sent in the body of the request, as a JSON object with the following keys:
   - user_name (string)
   - time_stamp (integer, reference to second in song)
   - comment (string)
 
-** PUT /comments/:commentid?songid=:songid **
+** PUT /comments/:commentid?songid **
 Updates a comment record in the database for a specific song (specified in query parameter). The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /comments).
 
-** DELETE /comments/:commentid?songid=:songid **
+** DELETE /comments/:commentid?songid **
 Removes a comment record from the database for a specific song (specified in query parameter).
 
 ## Related Projects
