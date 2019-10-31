@@ -14,7 +14,8 @@ Some instructions... link to primary data used for seeding: https://docs.google.
 
 ## API Documentation
 
-** GET /query/getSong/:songid **
+**GET /query/getSong/:songid**
+
 Gets song and comments data for a song with the specified songid. The response returns a JSON array with two elements. The first is an object containing song data, the second is an array of objects containing comments data.
 
 Example response:
@@ -50,7 +51,8 @@ Example response:
 ]
 ```
 
-** POST /songs **
+**POST /songs**
+
 Inserts a new song record into the database. Song data should be sent in the body of the request, as a JSON object with the following keys:
   - song_id
   - song_name (string)
@@ -65,22 +67,27 @@ Inserts a new song record into the database. Song data should be sent in the bod
   - song_duration (integer, duration in seconds)
 }
 
-** PUT /songs/:songid **
+**PUT /songs/:songid**
+
 Updates a song record in the database for the specified songid. The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /songs).
 
-** DELETE /songs/:songid **
+**DELETE /songs/:songid**
+
 Removes a song record in the database, for the specified songid, and removes any comment records related to the song.
 
-** POST /comments **
+**POST /comments**
+
 Inserts a comment record into the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`. Comment data should be sent in the body of the request, as a JSON object with the following keys:
   - user_name (string)
   - time_stamp (integer, reference to second in song)
   - comment (string)
 
-** PUT /comments/:commentid **
+**PUT /comments/:commentid**
+
 Updates a comment record in the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`. The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /comments).
 
-** DELETE /comments/:commentid **
+**DELETE /comments/:commentid**
+
 Removes a comment record from the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`.
 
 ## Related Projects
