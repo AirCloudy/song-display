@@ -23,9 +23,9 @@ Get a specific song. The response returns a JSON object.
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
 | `songId` | `integer` | _Required_. Identifier for the song. |
-| `songName` | `string` | _Required_. Name of the song. |
 | `artistId` | `integer` | _Required_. Identifier for the song artist. |
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
 | `songArtUrl` | `string` | _Required_. URL of the song art file. |
 | `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
@@ -44,9 +44,9 @@ Insert a new song record into the database. Data should be sent as a JSON object
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
 | `songId` | `integer` | _Required_. Identifier for the song. |
-| `songName` | `string` | _Required_. Name of the song. |
 | `artistId` | `integer` | _Required_. Identifier for the song artist. |
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
 | `songArtUrl` | `string` | _Required_. URL of the song art file. |
 | `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
@@ -65,9 +65,9 @@ Update a song record in the database. Data should be sent as a JSON object in th
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
 | `songId` | `integer` | _Required. Cannot be a value to update_. Identifier for the target song to be updated. |
-| `songName` | `string` | _Required_. Name of the song. |
 | `artistId` | `integer` | _Required_. Identifier for the song artist. |
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
 | `songArtUrl` | `string` | _Required_. URL of the song art file. |
 | `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
