@@ -1,77 +1,91 @@
-const Promise = require("bluebird");
-const fs = Promise.promisifyAll(require('fs'));
-const parser = Promise.promisifyAll(require('csv-parse'));
+const fs = require('fs');
+const csv = require('csv-parse');
 const faker = require('faker');
 const path = require('path');
 
-var exampleDataFilepath = path.resolve('db', 'data', 'example_song_data.csv');
+const ARTIST_MAX_COUNT = ALBUM_MAX_COUNT = USER_MAX_COUNT = 20;
+const exampleDataFilepath = path.resolve('db', 'data', 'example_song_data.csv');
 
-function getExampleData() {
-  return fs.readFileAsync(exampleDataFilepath, {encoding: 'utf-8'})
-    .then((csv) => {
-      var options = {
-        columns: true,
-        delimiter: ','
-      };
-      return parser(csv, options);
-    })
-    .catch((error) => {
-      console.error('Error: ', error);
-    });
+function generateArtistData() {
+  var artists = []
+  for (let i = 1; i <= ARTIST_MAX_COUNT; i++) {
+    var album = [];
+    var record = {
+      // artistId: i,
+      artistName: faker.lorem.words(faker.random.number({min: 1, max: 5}))
+    }
+    artists.push(record);
+  }
+  // save to file;
+  return artists;
 }
 
-function generateData(primaryRecordsCount) {
-  // read & parse example data
-  return getExampleData()
-    .then((data) => {
-      var exampleSongs = data;
+function generateAlbumData() {
+  var albums = []
+  for (let i = 1; i <= ALBUM_MAX_COUNT; i++) {
+    var record = {
+      // albumId: i,
+      albumName: faker.lorem.words(faker.random.number({min: 1, max: 7})),
+      // albumReleaseDate
+      // albumArtUrl
+    }
+    albums.push(record);
+  }
+  // save to file;
+  return albums;
+}
+
+function generateSongData(primaryRecordsCount) {
+  var exampleSongs = [];
+  var songs = [];
+  fs.createReadStream(exampleDataFilepath, {encoding: 'utf-8'})
+    .pipe(csv())
+    .on('data', (song) => exampleSongs.push(song))
+    .on('end', () => {
       var exampleSongIndex = 0;
-      var records = [];
       for (let i = 1; i <= primaryRecordsCount; i++) {
-        // generate artist and album records
-    
-        // primary records
-        // for each song, generate song record
-        exampleSongIndex = (exampleSongIndex === exampleSongs.length - 1) ? 0 : exampleSongIndex + 1; // rotate through elements in example song data array
+        exampleSongIndex = (exampleSongIndex === exampleSongs.length - 1) ? 0 : exampleSongIndex + 1; // rotate through example songs
         var exampleSong = exampleSongs[exampleSongIndex];
         var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
         var record = {
-          song_id: i,
-          song_name: exampleSong.song_name,
-          // artist_id: , // random number betwen x & z
-          // album_id: , // random number betwen x & z
-          song_data_url: exampleSong.song_data_url,
-          song_art_url: exampleSong.song_art_url,
-          song_duration: exampleSong.song_duration,
-          background_light: exampleSong.background_light,
-          background_dark: exampleSong.background_dark,
-          waveform_data: exampleSong.waveform_data,
+          // songId: i,
+          songName: exampleSong[0],
+          artistId: faker.random.number({min: 1, max: ARTIST_MAX_COUNT}),
+          albumId: faker.random.number({min: 1, max: ALBUM_MAX_COUNT}),
+          songDataUrl: exampleSong[1],
+          songArtUrl: exampleSong[2],
+          songArtColorLight: exampleSong[4],
+          songArtColorDark: exampleSong[5],
+          songDuration: Number(exampleSong[3]),
+          songWaveForm: exampleSong[6],
           tag: tags[faker.random.number(tags.length - 1)], // random tag
-          date_posted: faker.date.past(3) // random date in the past 3 years
+          datePosted: faker.date.past(3) // random date in the past 3 years
         }
-        console.log(record);
-        // for each record, callback(tablename, data)
-        // return records.push(record);
-        // generate user and comment records
+        songs.push(record);
       }
-      // return records;
-      console.log('done!');
-    })
-    .catch((error) => {
-      console.error('Error: ', error);
+      // write to file
+      return songs;
     });
 }
 
-getExampleData()
-  .then((data) => {
-    console.log('data', data);
-    console.log('typeof data', typeof data);
-    // for (let i = 0; i < songs.length; i++) {
-    //   const intTime = Date.parse(songs[i].date_posted);
-    //   // Format waveform JSON data
-    //   const formattedWaveform = songs[i].waveform_data
-    //     .replace('"{""', '\'{""}')
-    //     .replace(']}"', ']}\'');
-  });
+function generateUserData() {
+  var users = []
+  for (let i = 1; i <= USER_MAX_COUNT; i++) {
+    var record = {
+      // userId: i,
+      username: faker.internet.userName(),
+    }
+    users.push(record);
+  }
+  return users;
+}
 
-exports.generateData = generateData;
+// function generateCommentData() {
+  //
+// }
+
+exports.generateSongData = generateSongData;
+exports.generateArtistData = generateArtistData;
+exports.generateAlbumData = generateAlbumData;
+exports.generateUserData = generateUserData;
+exports.generateCommentData = generateCommentData;
