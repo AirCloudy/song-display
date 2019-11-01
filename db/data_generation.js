@@ -49,14 +49,14 @@ function generateSongData() {
         var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
         var record = {
           // songId: i,
-          songName: exampleSong[0],
           artistId: faker.random.number({min: 1, max: ARTIST_MAX_COUNT}),
           albumId: faker.random.number({min: 1, max: ALBUM_MAX_COUNT}),
+          songName: exampleSong[0],
           songDataUrl: exampleSong[1],
           songArtUrl: exampleSong[2],
-          songArtColorLight: exampleSong[4],
-          songArtColorDark: exampleSong[5],
-          songDuration: Number(exampleSong[3]),
+          songArtColorLight: exampleSong[3],
+          songArtColorDark: exampleSong[4],
+          songDuration: Number(exampleSong[5]),
           songWaveform: exampleSong[6],
           tag: tags[faker.random.number(tags.length - 1)], // random tag
           datePosted: faker.date.past() // random date in the past year
@@ -100,6 +100,12 @@ function generateCommentData() {
   // write to file
   return comments;
 }
+
+console.log(generateSongData());
+console.log(generateArtistData());
+console.log(generateAlbumData());
+console.log(generateUserData());
+console.log(generateCommentData());
 
 exports.generateSongData = generateSongData;
 exports.generateArtistData = generateArtistData;
