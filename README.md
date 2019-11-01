@@ -26,12 +26,12 @@ Get a specific song. The response returns a JSON object.
 | `artistId` | `integer` | _Required_. Identifier for the song artist. |
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
-| `songDataUrl` | `string` | _Required_. URL of the song audio file. |
-| `songArtUrl` | `string` | _Required_. URL of the song art file. |
-| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songDataUrl` | `string` | URL of the song audio file. |
+| `songArtUrl` | `string` | URL of the song art file. |
+| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
-| `songWaveform` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
@@ -48,11 +48,11 @@ Insert a new song record into the database. Data should be sent as a JSON object
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
-| `songArtUrl` | `string` | _Required_. URL of the song art file. |
-| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtUrl` | `string` | URL of the song art file. |
+| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
-| `songWaveform` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
@@ -69,11 +69,11 @@ Update a song record in the database. Data should be sent as a JSON object in th
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
-| `songArtUrl` | `string` | _Required_. URL of the song art file. |
-| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtUrl` | `string` | URL of the song art file. |
+| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
-| `songWaveform` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
 | `datePosted` | `timestamp` | _Required. Cannot be a value to update_. Timestamp of when song posted. |
 
@@ -99,7 +99,7 @@ Get comments for a song. The response returns a JSON array of objects.
 | `songId` | `integer` | _Required_. Identifier for the song. |
 | `userId` | `integer` | _Required_. Identifier for the user. |
 | `comment` | `string` | _Required_. Text of the comment. |
-| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `secondInSong` | `integer` | Second in the song that comment references. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
 
 ### POST /comments
@@ -120,7 +120,7 @@ Insert a comment record into the database for a song. Data should be sent as a J
 | `songId` | `integer` | _Required_. Identifier for the song. |
 | `userId` | `integer` | _Required_. Identifier for the user. |
 | `comment` | `string` | _Required_. Text of the comment. |
-| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `secondInSong` | `integer` | Second in the song that comment references. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
 
 ### PUT /comments/:commentid
@@ -141,7 +141,7 @@ Updates a comment record in the database for a song. Data should be sent as a JS
 | `songId` | `integer` | _Required_. Identifier for the song. |
 | `userId` | `integer` | _Required_. Identifier for the user. |
 | `comment` | `string` | _Required_. Text of the comment. |
-| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `secondInSong` | `integer` | Second in the song that comment references. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
 
 
