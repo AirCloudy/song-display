@@ -14,81 +14,146 @@ Some instructions... link to primary data used for seeding: https://docs.google.
 
 ## API Documentation
 
-**GET /query/getSong/:songid**
+### GET /songs/:songid
 
-Gets song and comments data for a song with the specified songid. The response returns a JSON array with two elements. The first is an object containing song data, the second is an array of objects containing comments data.
+Get a specific song. The response returns a JSON object.
 
-Example response:
-```
-[
-  {
-    song_id: 55,
-    song_name: 'sometime somewhere',
-    artist_name: 'shakira wannabe',
-    date_posted: '06/04/2014',
-    tag: '# Pop',
-    song_art_url: 'www.artsy.com/something',
-    song_data_url: 'wwww.aws.com/somesome',
-    background_light: '(292, 23, 33)', // rgb value
-    background_dark: '(292, 23, 33)', // rgb value
-    waveform_data: {positiveValues: [0, 0.29, 0.59]},
-    song_duration: 136 // duration in seconds
-  },
-  [
-    {
-      comment_id: 1,
-      user_name: 'angeliquemari',
-      time_stamp: 99, // reference to second in song
-      comment: 'some comment'
-    },
-    {
-      comment_id: 2,
-      user_name: 'bobthebuilder',
-      time_stamp: 88, // reference to second in song
-      comment: 'another comment'
-    }
-  ]
-]
-```
+**Response**
 
-**POST /songs**
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+| `songName` | `string` | _Required_. Name of the song. |
+| `artistId` | `integer` | _Required_. Identifier for the song artist. |
+| `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songDataUrl` | `string` | _Required_. URL of the song audio file. |
+| `songArtUrl` | `string` | _Required_. URL of the song art file. |
+| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songDuration` | `integer` | _Required_. Duration of song in seconds. |
+| `songWaveForm` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `tag` | `string` | Hashtag for song. |
+| `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
-Inserts a new song record into the database. Song data should be sent in the body of the request, as a JSON object with the following keys:
-  - song_id
-  - song_name (string)
-  - artist_name (string)
-  - date_posted (date)
-  - tag (string)
-  - song_art_url (string)
-  - song_data_url (string)
-  - background_light (string, rgb value with format '(#, #, #)')
-  - background_dark (string, rgb value with format '(#, #, #)')
-  - waveform_data (JSON object with key `positiveValues` containing array of decimal numbers)
-  - song_duration (integer, duration in seconds)
-}
+### POST /songs
 
-**PUT /songs/:songid**
+Insert a new song record into the database. Data should be sent as a JSON object in the body of the request.
 
-Updates a song record in the database for the specified songid. The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /songs).
+**Body**
 
-**DELETE /songs/:songid**
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+| `songName` | `string` | _Required_. Name of the song. |
+| `artistId` | `integer` | _Required_. Identifier for the song artist. |
+| `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songDataUrl` | `string` | _Required_. URL of the song audio file. |
+| `songArtUrl` | `string` | _Required_. URL of the song art file. |
+| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songDuration` | `integer` | _Required_. Duration of song in seconds. |
+| `songWaveForm` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `tag` | `string` | Hashtag for song. |
+| `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
-Removes a song record in the database, for the specified songid, and removes any comment records related to the song.
+### PUT /songs/:songid
 
-**POST /comments**
+Update a song record in the database. Data should be sent as a JSON object in the body of the request.
 
-Inserts a comment record into the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`. Comment data should be sent in the body of the request, as a JSON object with the following keys:
-  - user_name (string)
-  - time_stamp (integer, reference to second in song)
-  - comment (string)
+**Body**
 
-**PUT /comments/:commentid**
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required. Cannot be a value to update_. Identifier for the target song to be updated. |
+| `songName` | `string` | _Required_. Name of the song. |
+| `artistId` | `integer` | _Required_. Identifier for the song artist. |
+| `albumId` | `integer` | _Required_. Identifier for the song album. |
+| `songDataUrl` | `string` | _Required_. URL of the song audio file. |
+| `songArtUrl` | `string` | _Required_. URL of the song art file. |
+| `songArtColorLight` | `string` | _Required_. Light color from the song art. Rgb value with format `(#, #, #)`. |
+| `songArtColorDark` | `string` | _Required_. Dark color from the song art. Rgb value with format `(#, #, #)`. |
+| `songDuration` | `integer` | _Required_. Duration of song in seconds. |
+| `songWaveForm` | `integer` | _Required_. JSON object with key `positiveValues` containing array of decimal numbers. |
+| `tag` | `string` | Hashtag for song. |
+| `datePosted` | `timestamp` | _Required. Cannot be a value to update_. Timestamp of when song posted. |
 
-Updates a comment record in the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`. The updated version of the data should be a JSON object in the body of the request (key options listed in POST method to /comments).
+### DELETE /songs/:songid
 
-**DELETE /comments/:commentid**
+Removes a song record from the database, and removes any comment records related to the song.
 
-Removes a comment record from the database for a specific song. Id of the song should be specified by a query string parameter with the key `songid`.
+### GET /comments/
+
+Get comments for a song. The response returns a JSON array of objects.
+
+**Parameters**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+
+**Response**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `commentID` | `integer` | _Required_. Identifier for the comment. |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+| `userId` | `integer` | _Required_. Identifier for the user. |
+| `comment` | `string` | _Required_. Text of the comment. |
+| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
+
+### POST /comments
+
+Insert a comment record into the database for a song. Data should be sent as a JSON object in the body of the request.
+
+**Parameters**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+
+**Body**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `commentID` | `integer` | _Required_. Identifier for the comment. |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+| `userId` | `integer` | _Required_. Identifier for the user. |
+| `comment` | `string` | _Required_. Text of the comment. |
+| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
+
+### PUT /comments/:commentid
+
+Updates a comment record in the database for a song. Data should be sent as a JSON object in the body of the request.
+
+**Parameters**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+
+**Body**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `commentID` | `integer` | _Required_. Identifier for the comment. |
+| `songId` | `integer` | _Required_. Identifier for the song. |
+| `userId` | `integer` | _Required_. Identifier for the user. |
+| `comment` | `string` | _Required_. Text of the comment. |
+| `secondInSong` | `integer` | _Required_. Second in the song that comment references. |
+| `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
+
+
+### DELETE /comments/:commentid
+
+Removes a comment record from the database for a song.
+
+**Parameters**
+
+| Name  | Type | Description |
+| ----- | ---- | ----------- |
+| `songId` | `integer` | _Required_. Identifier for the song. |
 
 ## Related Projects
 
