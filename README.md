@@ -27,9 +27,6 @@ Get a specific song. The response returns a JSON object.
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | URL of the song audio file. |
-| `songArtUrl` | `string` | URL of the song art file. |
-| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
 | `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
@@ -48,9 +45,6 @@ Insert a new song record into the database. Data should be sent as a JSON object
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
-| `songArtUrl` | `string` | URL of the song art file. |
-| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
 | `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
@@ -69,9 +63,6 @@ Update a song record in the database. Data should be sent as a JSON object in th
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
 | `songDataUrl` | `string` | _Required_. URL of the song audio file. |
-| `songArtUrl` | `string` | URL of the song art file. |
-| `songArtColorLight` | `string` | Light color from the song art. Rgb value with format `(#, #, #)`. |
-| `songArtColorDark` | `string` | Dark color from the song art. Rgb value with format `(#, #, #)`. |
 | `songDuration` | `integer` | _Required_. Duration of song in seconds. |
 | `songWaveform` | `integer` | JSON object with key `positiveValues` containing array of decimal numbers. |
 | `tag` | `string` | Hashtag for song. |
