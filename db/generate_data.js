@@ -4,9 +4,8 @@ const path = require('path');
 const zlib = require('zlib');
 const Readable = require('stream').Readable;
 
-const SONG_MAX_COUNT = 10000000; // 10 million
+const SONG_MAX_COUNT = USER_MAX_COUNT = 10000000; // 10 million
 const ALBUM_MAX_COUNT = ARTIST_MAX_COUNT = 1000000; // 1 million
-const USER_MAX_COUNT = 10000; // 10k
 
 function generateArtistData() {
   var start = Date.now(); // to calculate time taken
@@ -163,7 +162,7 @@ function generateCommentData() {
   var commentId = 1;
   readStream._read = () => {
     if (i <= SONG_MAX_COUNT) {
-      var commentCount = faker.random.number({min: 15, max: 50}) // generate 15-50 comments per song
+      var commentCount = faker.random.number({min: 5, max: 50}) // generate 15-50 comments per song
       var records = [];
       for (let j = 0; j < commentCount; j++) {
         var record = [];

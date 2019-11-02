@@ -13,7 +13,7 @@ CREATE TABLE albums (
   album_release_date date NOT NULL,
   album_art_url text,
   album_art_color_light text,
-  album_art_color_dark text,
+  album_art_color_dark text
 );
 
 CREATE TABLE songs (
