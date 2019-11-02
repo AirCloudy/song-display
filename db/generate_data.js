@@ -4,12 +4,12 @@ const path = require('path');
 const zlib = require('zlib');
 const Readable = require('stream').Readable;
 
-const SONG_MAX_COUNT = 1000000; // 10 million
+const SONG_MAX_COUNT = 3000000; //1000000; // 10 million
 const ALBUM_MAX_COUNT = ARTIST_MAX_COUNT = 1000000; // 1 million
 const USER_MAX_COUNT = 10000; // 10k
-const start = Date.now(); // to calculate time taken
 
 function generateArtistData() {
+  var start = Date.now(); // to calculate time taken
   var readStream = new Readable();
   var i = 1;
   readStream._read = () => {
@@ -27,21 +27,23 @@ function generateArtistData() {
   var gzip = zlib.createGzip();
   var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'artists.txt.gz'));
   writeStream.on('error', (err) => {
-    const end = Date.now();
+    var end = Date.now();
     console.log('Error:', err.stack);
     console.log('Error writing artists.txt.gz, total time taken (ms):', end - start);
   });
 
   readStream
-    .pipe(gzip)
-    .pipe(writeStream)
-    .on('finish', () => {
-      const end = Date.now();
-      console.log('Done writing artists.txt.gz, total time taken (ms):', end - start);
+  .pipe(gzip)
+  .pipe(writeStream)
+  .on('finish', () => {
+    var end = Date.now();
+    console.log('Done writing artists.txt.gz, total time taken (ms):', end - start);
+    this.call();
     });
 }
 
 function generateAlbumData() {
+  var start = Date.now(); // to calculate time taken
   var readStream = new Readable();
   var i = 1;
   readStream._read = () => {
@@ -63,7 +65,7 @@ function generateAlbumData() {
   var gzip = zlib.createGzip();
   var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'albums.txt.gz'));
   writeStream.on('error', (err) => {
-    const end = Date.now();
+    var end = Date.now();
     console.log('Error:', err.stack);
     console.log('Error writing albums.txt.gz, total time taken (ms):', end - start);
   });
@@ -72,12 +74,48 @@ function generateAlbumData() {
     .pipe(gzip)
     .pipe(writeStream)
     .on('finish', () => {
-      const end = Date.now();
+      var end = Date.now();
       console.log('Done writing albums.txt.gz, total time taken (ms):', end - start);
+      this.call();
+    });
+}
+
+function generateUserData() {
+  var start = Date.now(); // to calculate time taken
+  var readStream = new Readable();
+  var i = 1;
+  readStream._read = () => {
+    if (i <= USER_MAX_COUNT) {
+      var record = [];
+      record.push(i); // userId
+      record.push(faker.internet.userName()); // username
+      readStream.push(record.join('|') + '\n');
+      i++;
+    } else {
+      readStream.push(null); // close read stream
+    }
+  };
+
+  var gzip = zlib.createGzip();
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'users.txt.gz'));
+  writeStream.on('error', (err) => {
+    var end = Date.now();
+    console.log('Error:', err.stack);
+    console.log('Error writing users.txt.gz, total time taken (ms):', end - start);
+  });
+
+  readStream
+    .pipe(gzip)
+    .pipe(writeStream)
+    .on('finish', () => {
+      var end = Date.now();
+      console.log('Done writing users.txt.gz, total time taken (ms):', end - start);
+      this.call();
     });
 }
 
 function generateSongData() {
+  var start = Date.now(); // to calculate time taken
   var readStream = new Readable();
   var i = 1;
   var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
@@ -103,29 +141,41 @@ function generateSongData() {
   var gzip = zlib.createGzip();
   var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'songs.txt.gz'));
   writeStream.on('error', (err) => {
-    const end = Date.now();
+    var end = Date.now();
     console.log('Error:', err.stack);
-    console.log('Error writing compressed file, total time taken (ms):', end - start);
+    console.log('Error writing songs.txt.gz, total time taken (ms):', end - start);
   });
 
   readStream
     .pipe(gzip)
     .pipe(writeStream)
     .on('finish', () => {
-      const end = Date.now();
-      console.log('Done writing compressed file, total time taken (ms):', end - start);
+      var end = Date.now();
+      console.log('Done writing songs.txt.gz, total time taken (ms):', end - start);
+      this.call();
     });
 }
 
-function generateUserData() {
+function generateCommentData() {
+  var start = Date.now(); // to calculate time taken
   var readStream = new Readable();
   var i = 1;
+  var commentId = 1;
   readStream._read = () => {
-    if (i <= USER_MAX_COUNT) {
-      var record = [];
-      record.push(i); // userId
-      record.push(faker.internet.userName()); // username
-      readStream.push(record.join('|') + '\n');
+    if (i <= SONG_MAX_COUNT) {
+      var commentCount = faker.random.number({min: 15, max: 50}) // generate 15-50 comments per song
+      var records = [];
+      for (let j = 0; j < commentCount; j++) {
+        var record = [];
+        record.push(commentId++); // commentId
+        record.push(i); // songId
+        record.push(faker.random.number({min: 1, max: USER_MAX_COUNT})); // userId
+        record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
+        record.push(faker.random.number(300)); // secondInSong
+        record.push(faker.date.past()); // datePosted, random date in the past year
+        records.push(record.join('|'));
+      }
+      if (records.length) readStream.push(records.join('\n') + '\n');
       i++;
     } else {
       readStream.push(null); // close read stream
@@ -133,52 +183,31 @@ function generateUserData() {
   };
 
   var gzip = zlib.createGzip();
-  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'users.txt.gz'));
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'comments.txt.gz'));
   writeStream.on('error', (err) => {
-    const end = Date.now();
+    var end = Date.now();
     console.log('Error:', err.stack);
-    console.log('Error writing users.txt.gz, total time taken (ms):', end - start);
+    console.log('Error writing comments.txt.gz, total time taken (ms):', end - start);
   });
 
   readStream
     .pipe(gzip)
     .pipe(writeStream)
     .on('finish', () => {
-      const end = Date.now();
-      console.log('Done writing users.txt.gz, total time taken (ms):', end - start);
+      var end = Date.now();
+      console.log('Done writing comments.txt.gz, total time taken (ms):', end - start);
+      this.call();
     });
 }
 
-function generateCommentData() {
-  var stream = fs.createWriteStream(path.resolve('db', 'data', 'comments.txt'));
-  var commentId = 1;
-  for (let i = 1; i <= SONG_MAX_COUNT; i++) {
-    var songCount = faker.random.number(5) // generate 0 - 5 comments per song
-    for (let j = 0; j < songCount; j++) {
-      var record = [];
-      record.push(commentId++); // commentId
-      record.push(i); // songId
-      record.push(faker.random.number({min: 1, max: USER_MAX_COUNT})); // userId
-      record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
-      record.push(faker.random.number(100)); // secondInSong
-      record.push(faker.date.past()); // datePosted, random date in the past year
-
-      stream.write(record.join('|') + '\n');
-      stream.on('error', (err) => {
-        console.log('Error:', err.stack);
-      });
-    }
-  }
+function generateData() {
+  var commentData = generateCommentData.bind(() => console.log('Done generating data.'));
+  var songData = generateSongData.bind(commentData);
+  var userData = generateUserData.bind(songData);
+  var albumData = generateAlbumData.bind(userData);
+  var artistData = generateArtistData.bind(albumData);
+  artistData();
 }
 
-generateUserData();
-// generateArtistData();
-// generateAlbumData();
-// generateSongData();
-// generateCommentData();
-
-exports.generateSongData = generateSongData;
-exports.generateArtistData = generateArtistData;
-exports.generateAlbumData = generateAlbumData;
-exports.generateUserData = generateUserData;
-exports.generateCommentData = generateCommentData;
+// // write data in order: artists, albums, users, songs, comments
+generateData();
