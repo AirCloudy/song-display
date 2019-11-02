@@ -4,7 +4,7 @@ const path = require('path');
 const zlib = require('zlib');
 const Readable = require('stream').Readable;
 
-const SONG_MAX_COUNT = 10000000; // 10 million
+const SONG_MAX_COUNT = 1000000; // 10 million
 const ALBUM_MAX_COUNT = ARTIST_MAX_COUNT = 1000000; // 1 million
 const USER_MAX_COUNT = 10000; // 10k
 const start = Date.now(); // to calculate time taken
@@ -42,21 +42,39 @@ function generateArtistData() {
 }
 
 function generateAlbumData() {
-  var stream = fs.createWriteStream(path.resolve('db', 'data', 'albums.txt'));
-  for (let i = 1; i <= ALBUM_MAX_COUNT; i++) {
-    var record = [];
-    record.push(i); // albumId
-    record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // albumName
-    record.push(faker.date.past(3)); // albumReleaseDate, random date in the past 3 years
-    record.push('https://i1.sndcdn.com/artworks-jZ4MhgzsCeD2-0-t500x500.jpg'); // albumArtUrl
-    record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorLight
-    record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorDark
-    
-    stream.write(record.join('|') + '\n');
-    stream.on('error', (err) => {
-      console.log('Error:', err.stack);
+  var readStream = new Readable();
+  var i = 1;
+  readStream._read = () => {
+    if (i <= ALBUM_MAX_COUNT) {
+      var record = [];
+      record.push(i); // albumId
+      record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // albumName
+      record.push(faker.date.past(3)); // albumReleaseDate, random date in the past 3 years
+      record.push('https://i1.sndcdn.com/artworks-jZ4MhgzsCeD2-0-t500x500.jpg'); // albumArtUrl
+      record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorLight
+      record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorDark  
+      readStream.push(record.join('|') + '\n');
+      i++;
+    } else {
+      readStream.push(null); // close read stream
+    }
+  };
+
+  var gzip = zlib.createGzip();
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'albums.txt.gz'));
+  writeStream.on('error', (err) => {
+    const end = Date.now();
+    console.log('Error:', err.stack);
+    console.log('Error writing albums.txt.gz, total time taken (ms):', end - start);
+  });
+
+  readStream
+    .pipe(gzip)
+    .pipe(writeStream)
+    .on('finish', () => {
+      const end = Date.now();
+      console.log('Done writing albums.txt.gz, total time taken (ms):', end - start);
     });
-  }
 }
 
 function generateSongData() {
@@ -100,17 +118,35 @@ function generateSongData() {
 }
 
 function generateUserData() {
-  var stream = fs.createWriteStream(path.resolve('db', 'data', 'users.txt'));
-  for (let i = 1; i <= ARTIST_MAX_COUNT; i++) {
-    var record = [];
-    record.push(i); // userId
-    record.push(faker.internet.userName()); // username
+  var readStream = new Readable();
+  var i = 1;
+  readStream._read = () => {
+    if (i <= USER_MAX_COUNT) {
+      var record = [];
+      record.push(i); // userId
+      record.push(faker.internet.userName()); // username
+      readStream.push(record.join('|') + '\n');
+      i++;
+    } else {
+      readStream.push(null); // close read stream
+    }
+  };
 
-    stream.write(record.join('|') + '\n');
-    stream.on('error', (err) => {
-      console.log('Error:', err.stack);
+  var gzip = zlib.createGzip();
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'users.txt.gz'));
+  writeStream.on('error', (err) => {
+    const end = Date.now();
+    console.log('Error:', err.stack);
+    console.log('Error writing users.txt.gz, total time taken (ms):', end - start);
+  });
+
+  readStream
+    .pipe(gzip)
+    .pipe(writeStream)
+    .on('finish', () => {
+      const end = Date.now();
+      console.log('Done writing users.txt.gz, total time taken (ms):', end - start);
     });
-  }
 }
 
 function generateCommentData() {
@@ -136,10 +172,10 @@ function generateCommentData() {
 }
 
 generateUserData();
-generateArtistData();
-generateAlbumData();
-generateSongData();
-generateCommentData();
+// generateArtistData();
+// generateAlbumData();
+// generateSongData();
+// generateCommentData();
 
 exports.generateSongData = generateSongData;
 exports.generateArtistData = generateArtistData;
