@@ -208,5 +208,5 @@ function generateData() {
   artistData();
 }
 
-// // write data in order: artists, albums, users, songs, comments
+// generate data in order: artists, albums, users, songs, comments
 generateData();
