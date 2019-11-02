@@ -11,7 +11,7 @@
     "start": "nodemon Server/server.js",
     "build": "webpack -w",
     "seed": "node db/seedCommentsTable.js && node db/seedSongTable.js",
-    "mini-seed": "node db/data_generation.js",
+    "mini-seed": "node db/generate_data.js",
     "test": "jest --verbose"
   },
   "dependencies": {
