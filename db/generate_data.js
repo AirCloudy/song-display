@@ -162,7 +162,7 @@ function generateCommentData() {
   var commentId = 1;
   readStream._read = () => {
     if (i <= SONG_MAX_COUNT) {
-      var commentCount = faker.random.number({min: 5, max: 50}) // generate 15-50 comments per song
+      var commentCount = faker.random.number({min: 5, max: 50}) // generate 5-50 comments per song
       var records = [];
       for (let j = 0; j < commentCount; j++) {
         var record = [];
