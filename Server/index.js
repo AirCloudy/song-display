@@ -14,13 +14,13 @@ app.use(function(req, res, next) {
   next();
 });
 // serve static files
-app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
+app.use('/:songid', express.static(path.join(__dirname, '../public/')));
 // middleware to parse requests with JSON payloads
 app.use(express.json())
 
 // handle API endpoints for songs
-app.get('/songs/:song_id', (req, res) => {
-  db_methods.getSong(req.params.song_id)
+app.get('/songs/:songid', (req, res) => {
+  db_methods.getSong(req.params.songid)
     .then((data) => res.send(data.rows[0]))
     .catch((err) => {
       console.log(err.stack);
@@ -49,7 +49,15 @@ app.post('/songs', (req, res) => {
 });
 
 app.put('/songs/:songid', (req, res) => {});
-app.delete('/songs/:songid', (req, res) => {});
+
+app.delete('/songs/:songid', (req, res) => {
+  db_methods.deleteSong(req.params.songid)
+    .then((success) => res.end())
+    .catch((err) => {
+      console.log(err.stack);
+      res.end();
+    });
+});
 
 // handle API endpoints for comments
 app.get('/comments', (req, res) => {});
