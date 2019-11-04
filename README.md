@@ -50,7 +50,7 @@ Insert a new song record into the database. Data should be sent as a JSON object
 | `tag` | `string` | Hashtag for song. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
-### PUT /songs/:songid
+### PUT /songs
 
 Update a song record in the database. Data should be sent as a JSON object in the body of the request.
 
