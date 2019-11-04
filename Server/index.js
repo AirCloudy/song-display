@@ -73,7 +73,7 @@ app.put('/songs', (req, res) => {
 
 app.delete('/songs/:songid', (req, res) => {
   db_methods.deleteSong(req.params.songid)
-    .then((success) => res.end())
+    .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
       res.end();
@@ -107,7 +107,30 @@ app.post('/comments', (req, res) => {
     });
 });
 
-// app.put('/comments', (req, res) => {});
-// app.delete('/comments/:commentid', (req, res) => {});
+app.put('/comments', (req, res) => {
+  var comment = [
+    req.body.commentId,
+    req.body.songId,
+    req.body.userId,
+    req.body.comment,
+    req.body.secondInSong,
+    req.body.datePosted
+  ];
+  db_methods.updateSongComment(comment)
+    .then(() => res.end())
+    .catch((err) => {
+      console.log(err.stack);
+      res.end();
+    });
+});
+
+app.delete('/comments/:commentid', (req, res) => {
+  db_methods.deleteSongComment(req.params.commentid)
+    .then(() => res.end())
+    .catch((err) => {
+      console.log(err.stack);
+      res.end();
+    });
+});
 
 app.listen(port, () => console.log(`Song display server running on port ${port}`));
