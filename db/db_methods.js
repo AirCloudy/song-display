@@ -45,13 +45,13 @@ function deleteSong(songId) {
 };
 
 // // methods to interact with song_comments table
-// function getSongComments(songId) {
-//   return pool.query('SELECT * FROM song_comments WHERE song_id = $1', [songId]);
-// };
+function getSongComments(songId) {
+  return pool.query('SELECT * FROM song_comments WHERE song_id = $1', [songId]);
+};
 
-// function insertSongComment(comment) {
-//   return pool.query('INSERT INTO song_comments VALUES($1, $2, $3, $4, $5, $6)', song);
-// };
+function insertSongComment(comment) {
+  return pool.query('INSERT INTO song_comments VALUES($1, $2, $3, $4, $5, $6)', comment);
+};
 
 // function updateSongComment(commentId) {
 // };
@@ -66,7 +66,7 @@ module.exports.getSong = getSong;
 module.exports.insertSong = insertSong;
 module.exports.updateSong = updateSong;
 module.exports.deleteSong = deleteSong;
-// module.exports.getSongComments = getSongComments;
-// module.exports.insertSongComment = insertSongComment;
+module.exports.getSongComments = getSongComments;
+module.exports.insertSongComment = insertSongComment;
 // module.exports.updateSongComment = updateSongComment;
 // module.exports.deleteSongComment = deleteSongComment;
