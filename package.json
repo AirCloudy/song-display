@@ -11,7 +11,7 @@
     "start": "nodemon Server/server.js",
     "build": "webpack -w",
     "seed": "node db/seedCommentsTable.js && node db/seedSongTable.js",
-    "mini-seed": "node db/generate_data.js",
+    "generate": "node db/generate_data.js",
     "test": "jest --verbose"
   },
   "dependencies": {
@@ -29,7 +29,9 @@
     "path": "^0.12.7",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "style-loader": "^1.0.0"
+    "stream-handbook": "^1.0.0",
+    "style-loader": "^1.0.0",
+    "zlib": "^1.0.5"
   },
   "jest": {
     "modulePaths": [
