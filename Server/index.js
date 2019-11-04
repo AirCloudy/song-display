@@ -48,7 +48,25 @@ app.post('/songs', (req, res) => {
     });
 });
 
-app.put('/songs/:songid', (req, res) => {});
+app.put('/songs', (req, res) => {
+  var song = [
+    req.body.songId,
+    req.body.artistId,
+    req.body.albumId,
+    req.body.songName,
+    req.body.songDataUrl,
+    req.body.songDuration,
+    req.body.songWaveform,
+    req.body.tag,
+    req.body.datePosted
+  ];
+  db_methods.updateSong(song)
+    .then(() => res.end())
+    .catch((err) => {
+      console.log(err.stack);
+      res.end();
+    });
+});
 
 app.delete('/songs/:songid', (req, res) => {
   db_methods.deleteSong(req.params.songid)
@@ -60,9 +78,9 @@ app.delete('/songs/:songid', (req, res) => {
 });
 
 // handle API endpoints for comments
-app.get('/comments', (req, res) => {});
+app.get('/comments', (req, res) => {}); // need to get songid from query
 app.post('/comments', (req, res) => {});
-app.put('/comments/:commentid', (req, res) => {});
+app.put('/comments', (req, res) => {});
 app.delete('/comments/:commentid', (req, res) => {});
 
 app.listen(port, () => console.log(`Song display server running on port ${port}`));
