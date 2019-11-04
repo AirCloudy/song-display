@@ -72,15 +72,9 @@ Update a song record in the database. Data should be sent as a JSON object in th
 
 Removes a song record from the database, and removes any comment records related to the song.
 
-### GET /comments/
+### GET /comments/song/:songid
 
 Get comments for a song. The response returns a JSON array of objects.
-
-**Parameters**
-
-| Name  | Type | Description |
-| ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
 
 **Response**
 
