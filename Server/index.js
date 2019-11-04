@@ -4,7 +4,7 @@ const port = 5001;
 const path = require('path');
 const db_methods = require('../db/db_methods.js');
 
-// set CORS headers and serve static files
+// set CORS headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -13,25 +13,45 @@ app.use(function(req, res, next) {
   );
   next();
 });
+// serve static files
 app.use('/:song_id', express.static(path.join(__dirname, '../public/')));
+// middleware to parse requests with JSON payloads
+app.use(express.json())
 
-// handle API endpoints
+// handle API endpoints for songs
 app.get('/songs/:song_id', (req, res) => {
-  var song_id = req.params.song_id;
-  db_methods.getSong(song_id)
-    .then((data) => {
-      // console.log('songs', data.rows[0]);
-      res.send(data.rows[0]);
-    })
+  db_methods.getSong(req.params.song_id)
+    .then((data) => res.send(data.rows[0]))
     .catch((err) => {
       console.log(err.stack);
       res.end();
     });
 });
 
-app.post('/songs', (req, res) => {});
+app.post('/songs', (req, res) => {
+  var song = [
+    req.body.songId,
+    req.body.artistId,
+    req.body.albumId,
+    req.body.songName,
+    req.body.songDataUrl,
+    req.body.songDuration,
+    req.body.songWaveform,
+    req.body.tag,
+    req.body.datePosted
+  ];
+  db_methods.insertSong(song)
+    .then(() => res.end())
+    .catch((err) => {
+      console.log(err.stack);
+      res.end();
+    });
+});
+
 app.put('/songs/:songid', (req, res) => {});
 app.delete('/songs/:songid', (req, res) => {});
+
+// handle API endpoints for comments
 app.get('/comments', (req, res) => {});
 app.post('/comments', (req, res) => {});
 app.put('/comments/:commentid', (req, res) => {});

@@ -1,5 +1,4 @@
 const pool = require('./index.js').pool;
-// const client = require('./index.js');
 
 // // methods to interact with artists table
 // function insertArtist(artist) {
@@ -25,11 +24,9 @@ function getSong(songId) {
   return pool.query('SELECT * FROM songs WHERE song_id = $1', [songId]);
 };
 
-// function insertSong(song) {
-//   return pool
-//     .query('INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)', song)
-//     .catch(err => console.log('Error inserting song into db:', err.stack));
-// };
+function insertSong(song) {
+  return pool.query('INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)', song);
+};
 
 // function updateSong(song) {
 // };
@@ -61,7 +58,7 @@ function getSong(songId) {
 // module.exports.insertAlbum = insertAlbum;
 // module.exports.insertUser = insertUser;
 module.exports.getSong = getSong;
-// module.exports.insertSong = insertSong;
+module.exports.insertSong = insertSong;
 // module.exports.updateSong = updateSong;
 // module.exports.deleteSong = deleteSong;
 // module.exports.getSongComments = getSongComments;
