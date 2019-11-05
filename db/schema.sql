@@ -41,3 +41,5 @@ CREATE TABLE song_comments (
   second_in_song integer,
   date_posted timestamp with time zone NOT NULL
 );
+
+CREATE INDEX song_ids ON song_comments (song_id);
