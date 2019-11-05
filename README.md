@@ -50,7 +50,7 @@ Insert a new song record into the database. Data should be sent as a JSON object
 | `tag` | `string` | Hashtag for song. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when song was posted. |
 
-### PUT /songs/:songid
+### PUT /songs
 
 Update a song record in the database. Data should be sent as a JSON object in the body of the request.
 
@@ -72,15 +72,9 @@ Update a song record in the database. Data should be sent as a JSON object in th
 
 Removes a song record from the database, and removes any comment records related to the song.
 
-### GET /comments/
+### GET /comments/song/:songid
 
 Get comments for a song. The response returns a JSON array of objects.
-
-**Parameters**
-
-| Name  | Type | Description |
-| ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
 
 **Response**
 
@@ -97,12 +91,6 @@ Get comments for a song. The response returns a JSON array of objects.
 
 Insert a comment record into the database for a song. Data should be sent as a JSON object in the body of the request.
 
-**Parameters**
-
-| Name  | Type | Description |
-| ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
-
 **Body**
 
 | Name  | Type | Description |
@@ -114,23 +102,17 @@ Insert a comment record into the database for a song. Data should be sent as a J
 | `secondInSong` | `integer` | Second in the song that comment references. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
 
-### PUT /comments/:commentid
+### PUT /comments
 
 Updates a comment record in the database for a song. Data should be sent as a JSON object in the body of the request.
-
-**Parameters**
-
-| Name  | Type | Description |
-| ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
 
 **Body**
 
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
-| `commentID` | `integer` | _Required_. Identifier for the comment. |
-| `songId` | `integer` | _Required_. Identifier for the song. |
-| `userId` | `integer` | _Required_. Identifier for the user. |
+| `commentID` | `integer` | _Required. Cannot be a value to update_. Identifier for the comment. |
+| `songId` | `integer` | _Required. Cannot be a value to update_. Identifier for the song. |
+| `userId` | `integer` | _Required. Cannot be a value to update_. Identifier for the user. |
 | `comment` | `string` | _Required_. Text of the comment. |
 | `secondInSong` | `integer` | Second in the song that comment references. |
 | `datePosted` | `timestamp` | _Required_. Timestamp of when comment posted. |
@@ -139,12 +121,6 @@ Updates a comment record in the database for a song. Data should be sent as a JS
 ### DELETE /comments/:commentid
 
 Removes a comment record from the database for a song.
-
-**Parameters**
-
-| Name  | Type | Description |
-| ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
 
 ## Related Projects
 
