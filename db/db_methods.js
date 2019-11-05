@@ -44,7 +44,7 @@ function deleteSong(songId) {
   return pool.query('DELETE FROM songs WHERE song_id = $1', [songId]);
 };
 
-// // methods to interact with song_comments table
+// methods to interact with song_comments table
 function getSongComments(songId) {
   return pool.query('SELECT * FROM song_comments WHERE song_id = $1', [songId]);
 };

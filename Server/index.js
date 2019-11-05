@@ -80,7 +80,7 @@ app.delete('/songs/:songid', (req, res) => {
     });
 });
 
-// // handle API endpoints for comments
+// handle API endpoints for comments
 app.get('/comments/song/:songid', (req, res) => {
   db_methods.getSongComments(req.params.songid)
     .then((data) => res.send(data.rows))
