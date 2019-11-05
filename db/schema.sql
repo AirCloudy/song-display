@@ -30,7 +30,7 @@ CREATE TABLE songs (
 
 CREATE TABLE users (
   user_id integer PRIMARY KEY,
-  username text NOT NULL UNIQUE
+  username text NOT NULL
 );
 
 CREATE TABLE song_comments (

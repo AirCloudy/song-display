@@ -3,6 +3,7 @@ const faker = require('faker');
 const path = require('path');
 const zlib = require('zlib');
 const Readable = require('stream').Readable;
+const moment = require('moment');
 
 const SONG_MAX_COUNT = USER_MAX_COUNT = 10000000; // 10 million
 const ALBUM_MAX_COUNT = ARTIST_MAX_COUNT = 1000000; // 1 million
@@ -50,7 +51,7 @@ function generateAlbumData() {
       var record = [];
       record.push(i); // albumId
       record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // albumName
-      record.push(faker.date.past(3)); // albumReleaseDate, random date in the past 3 years
+      record.push(moment(faker.date.past(3)).format().substring(0, 10)); // albumReleaseDate, random date in the past 3 years
       record.push('https://i1.sndcdn.com/artworks-jZ4MhgzsCeD2-0-t500x500.jpg'); // albumArtUrl
       record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorLight
       record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorDark  
@@ -129,7 +130,7 @@ function generateSongData() {
       record.push(faker.random.number({min: 100, max: 300})); // songDuration
       record.push('{"positiveValues":"[0.17,0.21,0.07,0.16,0.14,0.24,0.04,0.26,0.13,0.42,0.27]"}'); // songWaveform
       record.push(tags[faker.random.number(tags.length - 1)]); // tag
-      record.push(faker.date.past()); // datePosted
+      record.push(moment(faker.date.past()).format()); // datePosted
       readStream.push(record.join('|') + '\n');
       i++;
     } else {
@@ -171,7 +172,7 @@ function generateCommentData() {
         record.push(faker.random.number({min: 1, max: USER_MAX_COUNT})); // userId
         record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
         record.push(faker.random.number(300)); // secondInSong
-        record.push(faker.date.past()); // datePosted, random date in the past year
+        record.push(moment(faker.date.past()).format()); // datePosted, random date in the past year
         records.push(record.join('|'));
       }
       if (records.length) readStream.push(records.join('\n') + '\n');
@@ -182,11 +183,11 @@ function generateCommentData() {
   };
 
   var gzip = zlib.createGzip();
-  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'comments.txt.gz'));
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'song_comments.txt.gz'));
   writeStream.on('error', (err) => {
     var end = Date.now();
     console.log('Error:', err.stack);
-    console.log('Error writing comments.txt.gz, total time taken (ms):', end - start);
+    console.log('Error writing song_comments.txt.gz, total time taken (ms):', end - start);
   });
 
   readStream
@@ -194,7 +195,7 @@ function generateCommentData() {
     .pipe(writeStream)
     .on('finish', () => {
       var end = Date.now();
-      console.log('Done writing comments.txt.gz, total time taken (ms):', end - start);
+      console.log('Done writing song_comments.txt.gz, total time taken (ms):', end - start);
       this.call();
     });
 }
