@@ -1,17 +1,17 @@
 const pool = require('./index.js').pool;
 
-// // methods to interact with artists table
-// function insertArtist(artist) {
-//   return pool.query('INSERT INTO artists VALUES($1, $2)', artist);
-// };
-// // methods to interact with albums table
-// function insertAlbum(album) {
-//   return pool.query('INSERT INTO albums VALUES($1, $2, $3, $4, $5, $6)', album);
-// };
-// // methods to interact with users table
-// function insertUser(user) {
-//   return pool.query('INSERT INTO users VALUES($1, $2)', user);
-// };
+// methods to interact with artists, albums, users tables
+function insertArtist(artist) {
+  return pool.query('INSERT INTO artists VALUES($1, $2)', artist);
+};
+
+function insertAlbum(album) {
+  return pool.query('INSERT INTO albums VALUES($1, $2, $3, $4, $5, $6)', album);
+};
+
+function insertUser(user) {
+  return pool.query('INSERT INTO users VALUES($1, $2)', user);
+};
 
 // methods to interact with songs table
 function getSong(songId) {
@@ -72,9 +72,9 @@ function deleteSongComment(commentId) {
   return pool.query('DELETE FROM song_comments WHERE comment_id = $1', [commentId]);
 };
 
-// module.exports.insertArtist = insertArtist;
-// module.exports.insertAlbum = insertAlbum;
-// module.exports.insertUser = insertUser;
+module.exports.insertArtist = insertArtist;
+module.exports.insertAlbum = insertAlbum;
+module.exports.insertUser = insertUser;
 module.exports.getSong = getSong;
 module.exports.insertSong = insertSong;
 module.exports.updateSong = updateSong;
