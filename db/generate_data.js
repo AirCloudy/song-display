@@ -124,7 +124,7 @@ function generateSongData() {
       var record = [];
       record.push(i); // songId
       record.push(faker.random.number({min: 1, max: ARTIST_MAX_COUNT})); // artistId
-      record.push(faker.random.number({min: 1, max: ALBUM_MAX_COUNT})); // albumId
+      record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // albumName
       record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // songName
       record.push('https://aircloudy-songs.s3.us-east-2.amazonaws.com/01+Carry+On+Wayward+Son.m4a'); // songDataUrl
       record.push(faker.random.number({min: 100, max: 300})); // songDuration
@@ -200,7 +200,7 @@ function generateCommentData() {
     });
 }
 
-function generateData() {
+function generatePostgresData() {
   var commentData = generateCommentData.bind(() => console.log('Done generating data.'));
   var songData = generateSongData.bind(commentData);
   var userData = generateUserData.bind(songData);
@@ -209,5 +209,102 @@ function generateData() {
   artistData();
 }
 
+function generateSongDataWide() {
+  var start = Date.now(); // to calculate time taken
+  var readStream = new Readable();
+  var i = 1;
+  var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
+  readStream._read = () => {
+    if (i <= SONG_MAX_COUNT) {
+      var record = [];
+      record.push(i); // songId
+      record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // artistName
+      record.push(faker.random.number({min: 1, max: ALBUM_MAX_COUNT})); // albumId
+      record.push(moment(faker.date.past(3)).format().substring(0, 10)); // albumReleaseDate, random date in the past 3 years
+      record.push('https://i1.sndcdn.com/artworks-jZ4MhgzsCeD2-0-t500x500.jpg'); // albumArtUrl
+      record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorLight
+      record.push(`(${faker.random.number(255)}, ${faker.random.number(255)}, ${faker.random.number(255)})`); // albumArtColorDark  
+      record.push(faker.lorem.words(faker.random.number({min: 1, max: 5}))); // songName
+      record.push('https://aircloudy-songs.s3.us-east-2.amazonaws.com/01+Carry+On+Wayward+Son.m4a'); // songDataUrl
+      record.push(faker.random.number({min: 100, max: 300})); // songDuration
+      record.push('{"positiveValues":"[0.17,0.21,0.07,0.16,0.14,0.24,0.04,0.26,0.13,0.42,0.27]"}'); // songWaveform
+      record.push(tags[faker.random.number(tags.length - 1)]); // tag
+      record.push(moment(faker.date.past()).format()); // datePosted
+      readStream.push(record.join('|') + '\n');
+      i++;
+    } else {
+      readStream.push(null); // close read stream
+    }
+  };
+
+  var gzip = zlib.createGzip();
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'songs_wide.txt.gz'));
+  writeStream.on('error', (err) => {
+    var end = Date.now();
+    console.log('Error:', err.stack);
+    console.log('Error writing songs_wide.txt.gz, total time taken (ms):', end - start);
+  });
+
+  readStream
+    .pipe(gzip)
+    .pipe(writeStream)
+    .on('finish', () => {
+      var end = Date.now();
+      console.log('Done writing songs_wide.txt.gz, total time taken (ms):', end - start);
+      this.call();
+    });
+}
+
+function generateCommentDataWide() {
+  var start = Date.now(); // to calculate time taken
+  var readStream = new Readable();
+  var i = 1;
+  var commentId = 1;
+  readStream._read = () => {
+    if (i <= SONG_MAX_COUNT) {
+      var commentCount = faker.random.number({min: 5, max: 50}) // generate 5-50 comments per song
+      var records = [];
+      for (let j = 0; j < commentCount; j++) {
+        var record = [];
+        record.push(commentId++); // commentId
+        record.push(i); // songId
+        record.push(faker.internet.userName()); // username
+        record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
+        record.push(faker.random.number(300)); // secondInSong
+        record.push(moment(faker.date.past()).format()); // datePosted, random date in the past year
+        records.push(record.join('|'));
+      }
+      if (records.length) readStream.push(records.join('\n') + '\n');
+      i++;
+    } else {
+      readStream.push(null); // close read stream
+    }
+  };
+
+  var gzip = zlib.createGzip();
+  var writeStream = fs.createWriteStream(path.resolve('db', 'data', 'song_comments_wide.txt.gz'));
+  writeStream.on('error', (err) => {
+    var end = Date.now();
+    console.log('Error:', err.stack);
+    console.log('Error writing song_comments_wide.txt.gz, total time taken (ms):', end - start);
+  });
+
+  readStream
+    .pipe(gzip)
+    .pipe(writeStream)
+    .on('finish', () => {
+      var end = Date.now();
+      console.log('Done writing song_comments_wide.txt.gz, total time taken (ms):', end - start);
+      this.call();
+    });
+}
+
+function generateCassandraData() {
+  var commentDataWide = generateCommentDataWide.bind(() => console.log('Done generating data.'));
+  var songDataWide = generateSongDataWide.bind(commentDataWide);
+  songDataWide();
+}
+
 // generate data in order: artists, albums, users, songs, comments
-generateData();
+// generatePostgresData();
+generateCassandraData();
