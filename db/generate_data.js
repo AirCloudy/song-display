@@ -306,5 +306,5 @@ function generateCassandraData() {
 }
 
 // generate data in order: artists, albums, users, songs, comments
-// generatePostgresData();
-generateCassandraData();
+generatePostgresData();
+// generateCassandraData();
