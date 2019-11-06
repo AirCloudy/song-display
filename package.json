@@ -10,7 +10,7 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack -w",
-    "seed": "node db/seedCommentsTable.js && node db/seedSongTable.js",
+    "seed": "node db/seed_db.js",
     "generate": "node db/generate_data.js",
     "test": "jest --verbose"
   },
@@ -24,11 +24,13 @@
     "faker": "^4.1.0",
     "file-loader": "^4.2.0",
     "image-webpack-loader": "^6.0.0",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.4",
     "path": "^0.12.7",
     "pg": "^7.12.1",
+    "pg-copy-streams": "^2.2.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "stream-handbook": "^1.0.0",

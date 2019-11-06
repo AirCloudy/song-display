@@ -30,7 +30,7 @@ CREATE TABLE songs (
 
 CREATE TABLE users (
   user_id integer PRIMARY KEY,
-  username text NOT NULL UNIQUE
+  username text NOT NULL
 );
 
 CREATE TABLE song_comments (
@@ -41,3 +41,5 @@ CREATE TABLE song_comments (
   second_in_song integer,
   date_posted timestamp with time zone NOT NULL
 );
+
+CREATE INDEX song_ids ON song_comments (song_id);
