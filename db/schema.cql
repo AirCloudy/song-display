@@ -28,3 +28,7 @@ CREATE TABLE song_comments (
   date_posted timestamp,
   PRIMARY KEY (song_id, comment_id)
 );
+
+-- to seed db
+COPY aircloudy.songs(song_id, artist_name, album_name, album_release_date, album_art_url, album_art_color_light, album_art_color_dark, song_name, song_data_url, song_duration, song_waveform, tag, date_posted) FROM '/Users/angeliquenehmzow/Dropbox/Personal/Education/Other/Coding Bootcamps 2019/HackReactor/Code/sdc-aircloudy/song-display/db/data/songs_wide.txt' WITH DELIMITER='|';
+COPY aircloudy.song_comments(comment_id, song_id, username, comment, second_in_song, date_posted) FROM '/Users/angeliquenehmzow/Dropbox/Personal/Education/Other/Coding Bootcamps 2019/HackReactor/Code/sdc-aircloudy/song-display/db/data/song_comments_wide.txt' WITH DELIMITER='|';
