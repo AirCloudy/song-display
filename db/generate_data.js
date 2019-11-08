@@ -7,6 +7,7 @@ const moment = require('moment');
 
 const SONG_MAX_COUNT = USER_MAX_COUNT = 10000000; // 10 million
 const ALBUM_MAX_COUNT = ARTIST_MAX_COUNT = 1000000; // 1 million
+const COMMENT_MAX_COUNT = 70000000; // 70 million
 
 function generateArtistData() {
   var start = Date.now(); // to calculate time taken
@@ -156,26 +157,27 @@ function generateSongData() {
     });
 }
 
+// to get songId for comment
+function getRndBias(min, max, bias, influence) {
+  var rnd = Math.random() * (max - min) + min; // random in range
+  var mix = Math.random() * influence; // random mixer
+  return Math.round(rnd * (1 - mix) + bias * mix); // mix full range and bias
+}
+
 function generateCommentData() {
   var start = Date.now(); // to calculate time taken
   var readStream = new Readable();
   var i = 1;
-  var commentId = 1;
   readStream._read = () => {
-    if (i <= SONG_MAX_COUNT) {
-      var commentCount = faker.random.number({min: 5, max: 50}) // generate 5-50 comments per song
-      var records = [];
-      for (let j = 0; j < commentCount; j++) {
-        var record = [];
-        record.push(commentId++); // commentId
-        record.push(i); // songId
-        record.push(faker.random.number({min: 1, max: USER_MAX_COUNT})); // userId
-        record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
-        record.push(faker.random.number(300)); // secondInSong
-        record.push(moment(faker.date.past()).format()); // datePosted, random date in the past year
-        records.push(record.join('|'));
-      }
-      if (records.length) readStream.push(records.join('\n') + '\n');
+    if (i <= COMMENT_MAX_COUNT) {
+      var record = [];
+      record.push(i); // commentId
+      record.push(getRndBias(1, SONG_MAX_COUNT, SONG_MAX_COUNT * 0.8, 0.95)); // songId
+      record.push(faker.random.number({min: 1, max: USER_MAX_COUNT})); // userId
+      record.push(faker.lorem.words(faker.random.number({min: 1, max: 10}))); // comment
+      record.push(faker.random.number(300)); // secondInSong
+      record.push(moment(faker.date.past()).format()); // datePosted, random date in the past year
+      readStream.push(record.join('|') + '\n');
       i++;
     } else {
       readStream.push(null); // close read stream
