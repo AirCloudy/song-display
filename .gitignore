@@ -1,9 +1,10 @@
 node_modules
 db/data
+newrelic.js
+newrelic_agent.log
 
 # Configuration files
 config.js
-newrelic.js
 
 # .mp3 files, images
 Public/Assets/
