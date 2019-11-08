@@ -3,6 +3,7 @@ db/data
 
 # Configuration files
 config.js
+newrelic.js
 
 # .mp3 files, images
 Public/Assets/
