@@ -28,7 +28,7 @@ app.get('/songs/:songid', (req, res) => {
     .then((data) => res.send(data.rows[0]))
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -47,7 +47,7 @@ app.post('/songs', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -67,7 +67,7 @@ app.put('/songs', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -76,7 +76,7 @@ app.delete('/songs/:songid', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -86,7 +86,7 @@ app.get('/comments/song/:songid', (req, res) => {
     .then((data) => res.send(data.rows))
     .catch((err) => {
       console.log(err.stack);
-      res.end()
+      res.status(500).end()
     });
 });
 
@@ -102,7 +102,7 @@ app.post('/comments', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -119,7 +119,7 @@ app.put('/comments', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
@@ -128,7 +128,7 @@ app.delete('/comments/:commentid', (req, res) => {
     .then(() => res.end())
     .catch((err) => {
       console.log(err.stack);
-      res.end();
+      res.status(500).end()
     });
 });
 
