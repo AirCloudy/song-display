@@ -1,11 +1,10 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-
 const SONG_MAX_COUNT = 10000000; // 10 million
 
 export let options = {
   vus: 240,
-  duration: "1m"
+  duration: "45s"
 };
 
 export default function() {
@@ -17,7 +16,7 @@ export default function() {
 // import http from "k6/http";
 // const SONG_MAX_COUNT = 10000000; // 10 million
 
-// var desiredRPS = 9000;
+// var desiredRPS = 950;
 // var RPSperVU = 4;
 // var VUsRequired = Math.round(desiredRPS / RPSperVU);
 
