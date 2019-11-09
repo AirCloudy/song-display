@@ -40,7 +40,6 @@ Insert a new song record into the database. Data should be sent as a JSON object
 
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
-| `songId` | `integer` | _Required_. Identifier for the song. |
 | `artistId` | `integer` | _Required_. Identifier for the song artist. |
 | `albumId` | `integer` | _Required_. Identifier for the song album. |
 | `songName` | `string` | _Required_. Name of the song. |
@@ -95,7 +94,6 @@ Insert a comment record into the database for a song. Data should be sent as a J
 
 | Name  | Type | Description |
 | ----- | ---- | ----------- |
-| `commentID` | `integer` | _Required_. Identifier for the comment. |
 | `songId` | `integer` | _Required_. Identifier for the song. |
 | `userId` | `integer` | _Required_. Identifier for the user. |
 | `comment` | `string` | _Required_. Text of the comment. |
