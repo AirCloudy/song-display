@@ -1,9 +1,10 @@
+require('newrelic');
 const express = require('express');
 const app = express();
 const port = 5001;
 const path = require('path');
 const db_methods = require('../db/db_methods.js');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 
 // set CORS headers
 app.use(function(req, res, next) {
@@ -19,7 +20,7 @@ app.use(function(req, res, next) {
 app.use('/:songid', express.static(path.join(__dirname, '../public/')));
 // middleware to parse requests with JSON payloads
 app.use(express.json());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 // handle API endpoints for songs
 app.get('/songs/:songid', (req, res) => {
@@ -33,7 +34,6 @@ app.get('/songs/:songid', (req, res) => {
 
 app.post('/songs', (req, res) => {
   var song = [
-    req.body.songId,
     req.body.artistId,
     req.body.albumId,
     req.body.songName,
@@ -92,7 +92,6 @@ app.get('/comments/song/:songid', (req, res) => {
 
 app.post('/comments', (req, res) => {
   var comment = [
-    req.body.commentId,
     req.body.songId,
     req.body.userId,
     req.body.comment,

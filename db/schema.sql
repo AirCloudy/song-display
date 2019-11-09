@@ -55,3 +55,14 @@ ALTER TABLE song_comments ADD FOREIGN KEY (song_id) REFERENCES songs ON DELETE C
 ALTER TABLE song_comments ADD FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE;
 
 CREATE INDEX song_ids ON song_comments (song_id);
+
+CREATE SEQUENCE artist_seq START WITH 1000001; -- 1 million already seeded
+ALTER TABLE artists ALTER COLUMN artist_id SET DEFAULT nextval('artist_seq');
+CREATE SEQUENCE album_seq START WITH 1000001; -- 1 million already seeded
+ALTER TABLE albums ALTER COLUMN album_id SET DEFAULT nextval('album_seq');
+CREATE SEQUENCE song_seq START WITH 10000001; -- 10 million already seeded
+ALTER TABLE songs ALTER COLUMN song_id SET DEFAULT nextval('song_seq');
+CREATE SEQUENCE user_seq START WITH 10000001; -- 10 million already seeded
+ALTER TABLE users ALTER COLUMN user_id SET DEFAULT nextval('user_seq');
+CREATE SEQUENCE song_comment_seq START WITH 70000001; -- 70 million already seeded
+ALTER TABLE song_comments ALTER COLUMN comment_id SET DEFAULT nextval('song_comment_seq');
