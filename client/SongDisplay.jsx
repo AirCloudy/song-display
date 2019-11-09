@@ -136,34 +136,36 @@ export default class SongDisplay extends React.Component {
   // Get specific song for loaded page
   getSong() {
     axios
-      .get(`http://52.9.232.180:5001/query/getSong/${this.props.song_id}`)
+      .get(`/songs/${this.props.song_id}`)
       .then((response) => {
-        const songObj = response.data[0];
-        songObj.comments = response.data[1];
+        console.log('response.data', response.data);
+        // const songObj = response.data[0];
+
+        // songObj.comments = response.data[1];
         // Parse waveform data, calculate relative date posted
-        songObj.waveform_data = JSON.parse(songObj.waveform_data);
-        songObj.date_posted = calculateDatePosted(songObj.upload_time);
-        const songAudio = new Audio(songObj.song_data_url);
+        // songObj.waveform_data = JSON.parse(songObj.waveform_data);
+        // songObj.date_posted = calculateDatePosted(songObj.upload_time);
+        // const songAudio = new Audio(songObj.song_data_url);
         // Set to state then do the same for the rest of the songs
-        this.setState(
-          {
-            currentSongObj: songObj,
-            currentSongAudio: songAudio,
-          },
-          () => {
-            this.state.currentSongAudio.addEventListener(
-              'loadedmetadata',
-              () => {
-                // Calculate total length as string MM:SS
-                const currentSongObj = this.state.currentSongObj;
-                currentSongObj.durationMMSS = calculateMMSS(
-                  this.state.currentSongAudio.duration
-                );
-                this.setState({currentSongObj});
-              }
-            );
-          }
-        );
+        // this.setState(
+        //   {
+        //     currentSongObj: songObj,
+        //     currentSongAudio: songAudio,
+        //   },
+        //   () => {
+        //     this.state.currentSongAudio.addEventListener(
+        //       'loadedmetadata',
+        //       () => {
+        //         // Calculate total length as string MM:SS
+        //         const currentSongObj = this.state.currentSongObj;
+        //         currentSongObj.durationMMSS = calculateMMSS(
+        //           this.state.currentSongAudio.duration
+        //         );
+        //         this.setState({currentSongObj});
+        //       }
+        //     );
+        //   }
+        // );
       })
       .catch((err) => {
         console.log(err);
@@ -363,8 +365,8 @@ export default class SongDisplay extends React.Component {
     const currentSongObj = this.state.currentSongObj || {};
 
     return (
-      <div>
-        <div className={styles['nav-bar']}></div>
+      <div>Song display
+        {/* <div className={styles['nav-bar']}></div>
         <div id='playbackCenter' className={styles['outer-player-panel']}>
           <div
             className={styles['inner-player-panel']}
@@ -394,7 +396,7 @@ export default class SongDisplay extends React.Component {
               divElement={this.divElement}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

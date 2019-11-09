@@ -2,6 +2,7 @@ node_modules
 db/data
 newrelic.js
 newrelic_agent.log
+public/bundle.js
 
 # Configuration files
 config.js
