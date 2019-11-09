@@ -5,16 +5,15 @@ var ALBUM_MAX_COUNT = 1000000; // 1 million
 var ARTIST_MAX_COUNT = 1000000; // 1 million
 var songId = SONG_MAX_COUNT + 1;
 
-// export let options = {
-//   vus: 10,
-//   duration: "30s"
-// };
+export let options = {
+  vus: 10,
+  duration: "30s"
+};
 
 var randomNumber = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;;
 };
 
-// POST
 export default function() {
   var url = 'http://localhost:5001/songs';
   var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
