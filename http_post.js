@@ -1,9 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
-var SONG_MAX_COUNT = 10000000; // 10 million
 var ALBUM_MAX_COUNT = 1000000; // 1 million
 var ARTIST_MAX_COUNT = 1000000; // 1 million
-var songId = SONG_MAX_COUNT + 1;
 
 export let options = {
   vus: 10,
@@ -18,7 +16,6 @@ export default function() {
   var url = 'http://localhost:5001/songs';
   var tags = ['# Electronic', '# Rock', '# Alternative', '# Rap', '# Classical', '# Country', '# Jazz', '# Pop', '# Punk'];
   var song = {
-    songId: songId,
     artistId: randomNumber(1, ARTIST_MAX_COUNT),
     albumId: randomNumber(1, ALBUM_MAX_COUNT),
     songName: 'test song name',
@@ -30,7 +27,6 @@ export default function() {
     tag: tags[randomNumber(0, tags.length - 1)],
     datePosted: '2018-11-08T15:00:00'
   };
-  songId++;
 
   var payload = JSON.stringify(song);
   var params =  { headers: { "Content-Type": "application/json" } }

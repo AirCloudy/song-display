@@ -2,15 +2,15 @@ const pool = require('./index.js').pool;
 
 // methods to interact with artists, albums, users tables
 function insertArtist(artist) {
-  return pool.query('INSERT INTO artists VALUES($1, $2)', artist);
+  return pool.query('INSERT INTO artists VALUES(default, $1)', artist);
 };
 
 function insertAlbum(album) {
-  return pool.query('INSERT INTO albums VALUES($1, $2, $3, $4, $5, $6)', album);
+  return pool.query('INSERT INTO albums VALUES(default, $1, $2, $3, $4, $5)', album);
 };
 
 function insertUser(user) {
-  return pool.query('INSERT INTO users VALUES($1, $2)', user);
+  return pool.query('INSERT INTO users VALUES(default, $1)', user);
 };
 
 // methods to interact with songs table
@@ -19,7 +19,7 @@ function getSong(songId) {
 };
 
 function insertSong(song) {
-  return pool.query('INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)', song);
+  return pool.query('INSERT INTO songs VALUES(default, $1, $2, $3, $4, $5, $6, $7, $8)', song);
 };
 
 function updateSong(song) {
@@ -50,7 +50,7 @@ function getSongComments(songId) {
 };
 
 function insertSongComment(comment) {
-  return pool.query('INSERT INTO song_comments VALUES($1, $2, $3, $4, $5, $6)', comment);
+  return pool.query('INSERT INTO song_comments VALUES(default, $1, $2, $3, $4, $5)', comment);
 };
 
 function updateSongComment(comment) {

@@ -34,7 +34,6 @@ app.get('/songs/:songid', (req, res) => {
 
 app.post('/songs', (req, res) => {
   var song = [
-    req.body.songId,
     req.body.artistId,
     req.body.albumId,
     req.body.songName,
@@ -93,7 +92,6 @@ app.get('/comments/song/:songid', (req, res) => {
 
 app.post('/comments', (req, res) => {
   var comment = [
-    req.body.commentId,
     req.body.songId,
     req.body.userId,
     req.body.comment,
