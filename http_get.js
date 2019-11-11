@@ -1,5 +1,4 @@
 import http from "k6/http";
-import { check, sleep } from "k6";
 const SONG_MAX_COUNT = 10000000; // 10 million
 
 export let options = {
@@ -12,7 +11,7 @@ export default function() {
   http.get(`http://localhost:5001/songs/${songId}`);
 };
 
-// import { check, sleep } from "k6";
+// import { sleep } from "k6";
 // import http from "k6/http";
 // const SONG_MAX_COUNT = 10000000; // 10 million
 

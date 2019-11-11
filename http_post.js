@@ -1,5 +1,4 @@
 import http from "k6/http";
-import { check, sleep } from "k6";
 var ALBUM_MAX_COUNT = 1000000; // 1 million
 var ARTIST_MAX_COUNT = 1000000; // 1 million
 
@@ -33,7 +32,7 @@ export default function() {
   http.post(url, payload, params);
 };
 
-// import { check, sleep } from "k6";
+// import { sleep } from "k6";
 // import http from "k6/http";
 // var ALBUM_MAX_COUNT = 1000000; // 1 million
 // var ARTIST_MAX_COUNT = 1000000; // 1 million
