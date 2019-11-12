@@ -56,7 +56,7 @@ app.get('/songs/:songid', (req, res) => {
     .catch((err) => {
       if (responseSent) return;
       console.log(err);
-      res.end();
+      res.status(500).end()
     })
 });
 
