@@ -5,7 +5,15 @@ const port = 5001;
 const path = require('path');
 const db_methods = require('../db/db_methods.js');
 // const morgan = require('morgan');
-
+// set up cache
+const bluebird = require('bluebird');
+const redis = require('redis');
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+const redisClient = redis.createClient();
+redisClient.on('error', (err) => {
+  console.log("Error " + err);
+});
 // set CORS headers
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -24,12 +32,32 @@ app.use(express.json());
 
 // handle API endpoints for songs
 app.get('/songs/:songid', (req, res) => {
-  db_methods.getSong(req.params.songid)
-    .then((data) => res.send(data.rows[0]))
+  var songId = req.params.songid;
+  var responseSent = false;
+  redisClient.getAsync(`song:${songId}`)
+    .then((cachedSong) => {
+      if (cachedSong) {
+        // console.log('Song found in cache');
+        res.send(JSON.parse(cachedSong));
+        responseSent = true;
+        throw 'Song found in cache';
+      }
+      return db_methods.getSong(songId);
+    })
+    .then((dbData) => {
+      // console.log('Song read from db');
+      res.send(dbData.rows[0]);
+      responseSent = true;
+      return redisClient.setAsync(`song:${songId}`, JSON.stringify(dbData.rows[0]));
+    })
+    // .then(() => {
+    //   console.log('Song added to cache');
+    // })
     .catch((err) => {
-      console.log(err.stack);
-      res.status(500).end()
-    });
+      if (responseSent) return;
+      console.log(err);
+      res.end();
+    })
 });
 
 app.post('/songs', (req, res) => {

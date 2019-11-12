@@ -3,6 +3,7 @@ db/data
 newrelic.js
 newrelic_agent.log
 public/bundle.js
+dump.rdb
 
 # Configuration files
 config.js

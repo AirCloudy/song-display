@@ -2,12 +2,18 @@ import http from "k6/http";
 const SONG_MAX_COUNT = 10000000; // 10 million
 
 export let options = {
-  vus: 240,
-  duration: "45s"
+  vus: 200,
+  duration: "1m"
 };
 
+function getRndBias(min, max, bias, influence) {
+  var rnd = Math.random() * (max - min) + min; // random in range
+  var mix = Math.random() * influence; // random mixer
+  return Math.round(rnd * (1 - mix) + bias * mix); // mix full range and bias
+}
+
 export default function() {
-  var songId = Math.floor(Math.random() * SONG_MAX_COUNT) + 1; // pick random song
+  var songId = getRndBias(1, SONG_MAX_COUNT, SONG_MAX_COUNT * 0.8, 0.95);
   http.get(`http://localhost:5001/songs/${songId}`);
 };
 
