@@ -24,6 +24,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/loaderio-b69cc410299b79fbd2efdfe3edc38688', function (req, res, next) {
+  var options = {root: path.join(__dirname, '../public', 'loaderio')};
+  res.sendFile('loaderio-b69cc410299b79fbd2efdfe3edc38688.txt', options, (err) => {
+    if (err) console.log('Error:', err);
+  });
+});
+
 // serve static files
 app.use('/:songid', express.static(path.join(__dirname, '../public/')));
 // middleware to parse requests with JSON payloads
