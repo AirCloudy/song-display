@@ -4,7 +4,7 @@ const app = express();
 const port = 5001;
 const path = require('path');
 const db_methods = require('../db/db_methods.js');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 // set up cache
 const bluebird = require('bluebird');
 const redis = require('redis');
@@ -35,7 +35,11 @@ app.get('/loaderio-b69cc410299b79fbd2efdfe3edc38688', function (req, res, next) 
 app.use('/:songid', express.static(path.join(__dirname, '../public/')));
 // middleware to parse requests with JSON payloads
 app.use(express.json());
-// app.use(morgan('dev'));
+app.use(morgan('dev', {
+  skip: function (req, res) {
+      return res.statusCode >= 400
+  }, stream: process.stdout
+}));
 
 // handle API endpoints for songs
 app.get('/songs/:songid', (req, res) => {
