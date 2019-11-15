@@ -24,9 +24,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/loaderio-b69cc410299b79fbd2efdfe3edc38688', function (req, res, next) {
+app.get('/loaderio-c840503202988712a21253b077324ba4', function (req, res, next) {
   var options = {root: path.join(__dirname, '../public', 'loaderio')};
-  res.sendFile('loaderio-b69cc410299b79fbd2efdfe3edc38688.txt', options, (err) => {
+  res.sendFile('loaderio-c840503202988712a21253b077324ba4.txt', options, (err) => {
     if (err) console.log('Error:', err);
   });
 });
