@@ -10,7 +10,7 @@ const bluebird = require('bluebird');
 const redis = require('redis');
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({host: '3.135.51.114'});
 redisClient.on('error', (err) => {
   console.log("Error " + err);
 });
