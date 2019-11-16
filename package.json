@@ -8,8 +8,8 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
+    "start": "node Server/index.js",
+    "dev": "nodemon Server/index.js",
     "build": "webpack -w",
     "seed": "node db/seed_db.js",
     "generate": "node db/generate_data.js",
