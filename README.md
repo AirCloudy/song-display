@@ -1,16 +1,11 @@
 # Song Display Service
 
-Some description
+Microservice to display and play a single song. Application server created using Node.js and Express, data stored in a PostgreSQL database.
 
 ## Table of Contents
 
-1. [Usage](#usage)
 1. [API Documentation](#api-documentation)
 1. [Related Projects](#related-projects)
-
-## Usage
-
-Some instructions... link to primary data used for seeding: https://docs.google.com/spreadsheets/d/1hwpB4m7tJ8hPoLTkCoKtxYwlTUDIy23vpFFD99mDMWs/edit#gid=0
 
 ## API Documentation
 
@@ -123,4 +118,4 @@ Removes a comment record from the database for a song.
 ## Related Projects
 
   - https://github.com/AirCloudy/angelique-proxy
-  - Other?
+
