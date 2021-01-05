@@ -16,7 +16,7 @@
     "test": "jest --verbose"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bluebird": "^3.7.1",
     "compression": "^1.7.4",
     "css-loader": "^3.2.0",
